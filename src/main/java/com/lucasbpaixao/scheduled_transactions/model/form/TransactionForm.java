@@ -1,4 +1,4 @@
-package model.form;
+package com.lucasbpaixao.scheduled_transactions.model.form;
 
 import java.time.LocalDate;
 
@@ -6,7 +6,7 @@ public class TransactionForm {
     private String originAccount;
     private String destinationAccount;
     private LocalDate scheduleDate;
-    private Double value;
+    private Double transactionValue;
 
     public String getOriginAccount() {
         return originAccount;
@@ -32,11 +32,11 @@ public class TransactionForm {
         this.scheduleDate = scheduleDate;
     }
 
-    public Double getValue() {
-        return value;
+    public Double getTransactionValue() {
+        return transactionValue;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
+    public void setTransactionValue(Double transactionValue) {
+        this.transactionValue = transactionValue;
     }
 }

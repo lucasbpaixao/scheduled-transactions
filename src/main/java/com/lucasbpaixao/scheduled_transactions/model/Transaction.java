@@ -1,28 +1,33 @@
-package model.dto;
+package com.lucasbpaixao.scheduled_transactions.model;
 
+import jakarta.persistence.*;
+import com.lucasbpaixao.scheduled_transactions.model.form.TransactionForm;
 
-import model.Transaction;
 import java.time.LocalDate;
 
-public class TransactionDto {
+@Entity
+@Table(name = "scheduled_transactions")
+public class Transaction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String originAccount;
     private String destinationAccount;
     private LocalDate scheduleDate;
     private LocalDate registrationDate;
-    private Double value;
+    private Double transactionValue;
     private Double tax;
     private Double total;
 
-    public TransactionDto(Transaction transaction) {
-        this.id = transaction.getId();
-        this.originAccount = transaction.getOriginAccount();
-        this.destinationAccount = transaction.getDestinationAccount();
-        this.scheduleDate = transaction.getScheduleDate();
-        this.registrationDate = transaction.getRegistrationDate();
-        this.value = transaction.getValue();
-        this.tax = transaction.getTax();
-        this.total = transaction.getTotal();
+    public Transaction() {
+    }
+
+    public Transaction(TransactionForm transactionForm) {
+        this.originAccount = transactionForm.getOriginAccount();
+        this.destinationAccount = transactionForm.getDestinationAccount();
+        this.scheduleDate = transactionForm.getScheduleDate();
+        this.registrationDate = LocalDate.now();
+        this.transactionValue = transactionForm.getTransactionValue();
     }
 
     public Long getId() {
@@ -65,12 +70,12 @@ public class TransactionDto {
         this.registrationDate = registrationDate;
     }
 
-    public Double getValue() {
-        return value;
+    public Double getTransactionValue() {
+        return transactionValue;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
+    public void setTransactionValue(Double transactionValue) {
+        this.transactionValue = transactionValue;
     }
 
     public Double getTax() {
@@ -82,7 +87,7 @@ public class TransactionDto {
     }
 
     public Double getTotal() {
-        return this.total;
+        return this.transactionValue + this.tax;
     }
 
     public void setTotal(Double total) {

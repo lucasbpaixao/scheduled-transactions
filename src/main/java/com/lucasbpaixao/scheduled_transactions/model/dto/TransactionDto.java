@@ -1,30 +1,28 @@
-package model;
+package com.lucasbpaixao.scheduled_transactions.model.dto;
 
-import jakarta.persistence.Entity;
-import model.form.TransactionForm;
 
+import com.lucasbpaixao.scheduled_transactions.model.Transaction;
 import java.time.LocalDate;
 
-@Entity
-public class Transaction {
+public class TransactionDto {
     private Long id;
     private String originAccount;
     private String destinationAccount;
     private LocalDate scheduleDate;
     private LocalDate registrationDate;
-    private Double value;
+    private Double transactionValue;
     private Double tax;
     private Double total;
 
-    public Transaction() {
-    }
-
-    public Transaction(TransactionForm transactionForm) {
-        this.originAccount = transactionForm.getOriginAccount();
-        this.destinationAccount = transactionForm.getDestinationAccount();
-        this.scheduleDate = transactionForm.getScheduleDate();
-        this.registrationDate = LocalDate.now();
-        this.value = transactionForm.getValue();
+    public TransactionDto(Transaction transaction) {
+        this.id = transaction.getId();
+        this.originAccount = transaction.getOriginAccount();
+        this.destinationAccount = transaction.getDestinationAccount();
+        this.scheduleDate = transaction.getScheduleDate();
+        this.registrationDate = transaction.getRegistrationDate();
+        this.transactionValue = transaction.getTransactionValue();
+        this.tax = transaction.getTax();
+        this.total = transaction.getTotal();
     }
 
     public Long getId() {
@@ -67,12 +65,12 @@ public class Transaction {
         this.registrationDate = registrationDate;
     }
 
-    public Double getValue() {
-        return value;
+    public Double getTransactionValue() {
+        return transactionValue;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
+    public void setTransactionValue(Double transactionValue) {
+        this.transactionValue = transactionValue;
     }
 
     public Double getTax() {
@@ -84,7 +82,7 @@ public class Transaction {
     }
 
     public Double getTotal() {
-        return this.value + this.tax;
+        return this.total;
     }
 
     public void setTotal(Double total) {
