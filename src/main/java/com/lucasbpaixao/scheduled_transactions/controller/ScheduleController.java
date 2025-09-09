@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import com.lucasbpaixao.scheduled_transactions.repository.TransactionRepository;
 import com.lucasbpaixao.scheduled_transactions.service.TransactionService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api")
 public class ScheduleController {
@@ -48,5 +50,10 @@ public class ScheduleController {
             transactionRepository.saveAndFlush(transaction);
             return new ResponseEntity<>(new TransactionDto(transaction), HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("get-transactions")
+    public ResponseEntity<List<TransactionDto>> getTransactions(){
+        return new ResponseEntity<>(transactionService.toDtoList(transactionRepository.findAll()), HttpStatus.OK);
     }
 }

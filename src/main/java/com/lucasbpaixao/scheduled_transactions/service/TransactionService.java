@@ -1,9 +1,12 @@
 package com.lucasbpaixao.scheduled_transactions.service;
 
 import com.lucasbpaixao.scheduled_transactions.model.Transaction;
+import com.lucasbpaixao.scheduled_transactions.model.dto.TransactionDto;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -26,5 +29,9 @@ public class TransactionService {
         } else {
             throw new IllegalArgumentException("Transfer date must be within 50 days from today");
         }
+    }
+
+    public List<TransactionDto> toDtoList(List<Transaction> transactions){
+        return transactions.stream().map(TransactionDto::new).collect(Collectors.toList());
     }
 }
