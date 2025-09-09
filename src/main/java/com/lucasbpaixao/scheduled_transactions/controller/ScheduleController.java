@@ -38,4 +38,15 @@ public class ScheduleController {
             return new ResponseEntity<>(new TransactionDto(transaction), HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PutMapping("update-transaction/{id}")
+    @Transactional
+    public ResponseEntity<TransactionDto> updateAuthor(@PathVariable("id") Long id, @RequestBody TransactionForm transactionForm) {
+        return transactionRepository.findById(id).map(transaction -> {
+            transaction.update(transactionForm);
+            transaction.setTax(transactionService.calculateTax(transaction));
+            transactionRepository.saveAndFlush(transaction);
+            return new ResponseEntity<>(new TransactionDto(transaction), HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

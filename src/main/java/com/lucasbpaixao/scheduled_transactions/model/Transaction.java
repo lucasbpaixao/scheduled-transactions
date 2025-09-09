@@ -93,4 +93,23 @@ public class Transaction {
     public void setTotal(Double total) {
         this.total = total;
     }
+
+    public void update(TransactionForm newTransaction) {
+        if (newTransaction.getOriginAccount() != null && !newTransaction.getOriginAccount().equals(this.originAccount)) {
+            this.originAccount = newTransaction.getOriginAccount();
+        }
+
+        if (newTransaction.getDestinationAccount() != null && !newTransaction.getDestinationAccount().equals(this.destinationAccount)) {
+            this.destinationAccount = newTransaction.getDestinationAccount();
+        }
+
+        if (newTransaction.getScheduleDate() != null && !newTransaction.getScheduleDate().equals(this.scheduleDate)) {
+            this.scheduleDate = newTransaction.getScheduleDate();
+        }
+
+        if (newTransaction.getTransactionValue() != null && !newTransaction.getTransactionValue().equals(this.transactionValue)) {
+            this.transactionValue = newTransaction.getTransactionValue();
+        }
+        this.registrationDate = LocalDate.now();
+    }
 }
