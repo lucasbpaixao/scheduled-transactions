@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.lucasbpaixao.scheduled_transactions.repository.TransactionRepository;
 import com.lucasbpaixao.scheduled_transactions.service.TransactionService;
 
 @RestController
+@RequestMapping("api")
 public class ScheduleController {
     @Autowired
     private TransactionService transactionService;
@@ -30,5 +29,13 @@ public class ScheduleController {
         transactionRepository.saveAndFlush(transaction);
 
         return new ResponseEntity<>(new TransactionDto(transaction), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete-transaction/{id}")
+    public ResponseEntity<TransactionDto> deleteTransaction(@PathVariable("id") Long id){
+        return transactionRepository.findById(id).map(transaction -> {
+            transactionRepository.deleteById(transaction.getId());
+            return new ResponseEntity<>(new TransactionDto(transaction), HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
